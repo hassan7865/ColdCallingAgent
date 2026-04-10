@@ -1,0 +1,33 @@
+from services import (
+    auth_service,
+    base_service,
+    calls_service,
+    campaigns_service,
+    crm_service,
+    emails_service,
+    followups_service,
+    jobs_service,
+    linkedin_service,
+    meetings_service,
+    prospects_service,
+    reports_service,
+    scripts_service,
+    triggers_service,
+)
+
+__all__ = [
+    "auth_service",
+    "base_service",
+    "jobs_service",
+    "prospects_service",
+    "campaigns_service",
+    "calls_service",
+    "scripts_service",
+    "emails_service",
+    "linkedin_service",
+    "followups_service",
+    "meetings_service",
+    "triggers_service",
+    "crm_service",
+    "reports_service",
+]

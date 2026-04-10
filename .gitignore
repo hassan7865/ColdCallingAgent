@@ -1,0 +1,53 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets (keep .env.example tracked if you add one)
+.env
+.env.*
+!.env.example
+
+# --- coldcall-ui (Next.js) ---
+coldcall-ui/node_modules/
+coldcall-ui/.pnp
+coldcall-ui/.pnp.*
+coldcall-ui/.yarn/*
+!coldcall-ui/.yarn/patches
+!coldcall-ui/.yarn/plugins
+!coldcall-ui/.yarn/releases
+!coldcall-ui/.yarn/versions
+coldcall-ui/.next/
+coldcall-ui/out/
+coldcall-ui/build/
+coldcall-ui/coverage/
+coldcall-ui/.vercel/
+coldcall-ui/*.tsbuildinfo
+coldcall-ui/next-env.d.ts
+coldcall-ui/npm-debug.log*
+coldcall-ui/yarn-debug.log*
+coldcall-ui/yarn-error.log*
+coldcall-ui/.pnpm-debug.log*
+coldcall-ui/*.pem
+
+# --- coldcall-api (Python) ---
+coldcall-api/.venv/
+coldcall-api/venv/
+coldcall-api/__pycache__/
+coldcall-api/**/__pycache__/
+coldcall-api/*.py[cod]
+coldcall-api/*.egg-info/
+coldcall-api/.eggs/
+coldcall-api/dist/
+coldcall-api/build/
+coldcall-api/.pytest_cache/
+coldcall-api/.mypy_cache/
+coldcall-api/.ruff_cache/
+coldcall-api/.coverage
+coldcall-api/htmlcov/
+
+# Local databases
+*.db
+*.sqlite3
+
+# IDE / editors
+.idea/
