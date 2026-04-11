@@ -59,13 +59,13 @@ export function DashboardPageContent() {
           </header>
         </div>
       </div>
-      <div className="min-h-0 min-w-0">
-        <div className="flex h-full min-h-0 min-w-0 flex-col">
-          <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border-0 bg-surface-container-low/40 text-on-surface shadow-xl shadow-black/15">
-            <div className="box-border min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain p-[10px] [scrollbar-gutter:stable]">
-              <DashboardOverview summary={summaryQuery.data ?? null} />
-            </div>
-          </div>
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col border-t border-outline-variant/15 pt-5 text-on-surface sm:pt-6">
+        <div
+          className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain pb-1 [scrollbar-gutter:stable]"
+          role="region"
+          aria-label="Dashboard overview"
+        >
+          <DashboardOverview summary={summaryQuery.data ?? null} />
         </div>
       </div>
     </div>

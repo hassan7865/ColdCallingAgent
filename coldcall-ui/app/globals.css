@@ -198,6 +198,22 @@
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
+  /* Scroll regions (e.g. campaigns grid, prospects lists) */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--outline-variant) 55%, transparent) transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: color-mix(in srgb, var(--outline-variant) 45%, transparent);
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
   @keyframes pulse {
     0%,
     100% {

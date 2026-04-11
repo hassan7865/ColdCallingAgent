@@ -159,7 +159,7 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
       </header>
       <main className="mx-auto flex min-h-0 w-full max-w-screen-2xl flex-1 flex-col overflow-hidden px-4 pt-5 pb-10 sm:px-6 sm:pt-7 sm:pb-12">
         <div className="grid min-h-0 min-w-0 flex-1 [grid-template-rows:minmax(0,1fr)]">
-          <div className="box-border min-h-0 min-w-0 px-1 pb-2 pt-1 sm:px-2 sm:pb-3 sm:pt-2">{children}</div>
+          <div className="box-border flex h-full min-h-0 min-w-0 flex-col px-1 pb-2 pt-1 sm:px-2 sm:pb-3 sm:pt-2">{children}</div>
         </div>
       </main>
     </div>

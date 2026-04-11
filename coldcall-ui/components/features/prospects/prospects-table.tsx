@@ -67,7 +67,7 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
   if (query.isLoading) return <ListLoading rows={8} />;
 
   return (
-    <div className="mx-auto grid h-full min-h-0 min-w-0 w-full max-w-[1600px] grid-rows-[auto_minmax(0,1fr)] gap-6 sm:gap-8">
+    <div className="mx-auto grid min-h-0 min-w-0 w-full max-w-[1600px] flex-1 grid-rows-[auto_minmax(0,1fr)] gap-6 sm:gap-8">
       <div className="min-w-0">
         <div className="relative overflow-hidden rounded-2xl border-0 bg-surface-container-low/40 p-5 shadow-xl shadow-black/15 sm:p-7">
           <div className="pointer-events-none absolute -left-16 top-0 h-52 w-52 rounded-full bg-primary/10 blur-[90px]" />
@@ -106,11 +106,10 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
           </div>
         </div>
       </div>
-      <div className="min-h-0 min-w-0">
-        <div className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden">
-          <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border-0 bg-surface-container-low/40 text-on-surface shadow-xl shadow-black/15 md:flex-row">
-        <aside className="flex max-h-[42vh] min-h-0 w-full shrink-0 flex-col bg-surface-container-low/90 backdrop-blur-sm md:max-h-full md:h-full md:w-[min(100%,400px)] md:max-w-[400px] md:shrink-0">
-          <div className="shrink-0 space-y-3 p-4 sm:p-5">
+      <div className="flex min-h-0 min-w-0 flex-col overflow-hidden">
+        <div className="flex min-h-0 w-full flex-1 flex-col overflow-hidden border-t border-outline-variant/15 pt-5 text-on-surface sm:pt-6 md:flex-row md:items-stretch md:pt-0">
+        <aside className="flex min-h-0 w-full shrink-0 flex-col border-outline-variant/10 bg-surface-container-low/90 backdrop-blur-sm max-h-[min(44vh,22rem)] sm:max-h-[min(46vh,24rem)] md:max-h-none md:h-full md:w-[min(100%,400px)] md:max-w-[400px] md:flex-none md:border-r md:pt-5">
+          <div className="shrink-0 space-y-4 p-5 sm:p-6">
             <div className="flex items-center justify-between gap-2">
               <h2 className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Directory</h2>
               <span className="text-[10px] font-medium text-on-surface-variant/80">{list.length} loaded</span>
@@ -148,7 +147,11 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
             </div>
           </div>
 
-          <div className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-y-contain">
+          <div
+            className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-y-contain [scrollbar-gutter:stable]"
+            role="region"
+            aria-label="Prospect directory"
+          >
             {list.length === 0 ? (
               <div className="p-6 text-center text-sm text-on-surface-variant">No prospects from the API yet.</div>
             ) : null}
@@ -166,7 +169,7 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
                         : "border-l-[3px] border-transparent hover:bg-surface-container-high/50",
                     )}
                   >
-                    <div className="flex gap-3 p-4">
+                    <div className="flex gap-3 px-4 py-3.5 sm:px-5 sm:py-4">
                       <div
                         className={cn(
                           "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ring-1 transition-colors",
@@ -212,12 +215,19 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
           </div>
         </aside>
 
-        <section className="custom-scrollbar relative flex min-h-0 min-w-0 flex-1 flex-col overflow-y-auto overscroll-y-contain bg-surface">
+        <section className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-surface md:min-h-0 md:pt-5">
           {!selected ? (
-            <div className="flex flex-1 items-center justify-center p-8 text-sm text-on-surface-variant">Select a prospect from the list.</div>
+            <div className="flex min-h-[12rem] flex-1 items-center justify-center p-8 text-sm text-on-surface-variant md:min-h-0">
+              Select a prospect from the list.
+            </div>
           ) : (
             <>
-              <div className="p-4 pb-6 sm:p-6 md:p-8 md:pb-10">
+              <div
+                className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-y-contain [scrollbar-gutter:stable]"
+                role="region"
+                aria-label="Prospect profile"
+              >
+              <div className="p-5 pb-8 sm:p-7 md:p-8 md:pb-10">
                 <div className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                   <div className="flex min-w-0 flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
                     <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-primary/5 ring-1 ring-primary/25 sm:h-[4.5rem] sm:w-[4.5rem]">
@@ -297,7 +307,7 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
                   </CardContent>
                 </Card>
 
-                <div className="mb-28 space-y-3 pb-4 sm:mb-32 md:pb-8">
+                <div className="space-y-4 pb-2 sm:space-y-5">
                   <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h3 className="flex items-center gap-2 text-base font-bold text-on-surface sm:text-lg">
                       <span className="material-symbols-outlined text-primary">auto_awesome</span>
@@ -348,8 +358,9 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
                   ))}
                 </div>
               </div>
+              </div>
 
-              <div className="glass-panel fixed inset-x-0 bottom-0 z-40 flex min-h-[4.5rem] flex-col gap-3 border-t border-outline-variant/15 bg-surface-container-low/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md supports-[backdrop-filter]:bg-surface-container-low/85 sm:flex-row sm:items-center sm:justify-between sm:px-6 md:left-[min(100%,400px)] md:px-8">
+              <div className="glass-panel flex min-h-[4.5rem] shrink-0 flex-col gap-3 border-t border-outline-variant/15 bg-surface-container-low/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md supports-[backdrop-filter]:bg-surface-container-low/85 sm:flex-row sm:items-center sm:justify-between sm:px-6 md:px-8">
                 <div className="flex flex-wrap gap-2 sm:gap-3">
                   <Button
                     type="button"
@@ -386,7 +397,6 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
             </>
           )}
         </section>
-          </div>
         </div>
       </div>
     </div>

@@ -142,12 +142,14 @@ export function CampaignsView({ initialItems = [] }: { initialItems?: CampaignRe
             </div>
           </div>
         </div>
-        <div className="min-h-0 min-w-0">
-          <div className="flex h-full min-h-0 min-w-0 flex-col">
-            <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden rounded-2xl border-0 bg-surface-container-low/40 text-on-surface shadow-xl shadow-black/15">
-              <div className="box-border min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain p-[10px] [scrollbar-gutter:stable]">
-        <div className="space-y-8 sm:space-y-10">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col border-t border-outline-variant/15 pt-5 text-on-surface sm:pt-6">
+          <div
+            className="custom-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain pb-1 [scrollbar-gutter:stable]"
+            role="region"
+            aria-label="Campaigns and overview"
+          >
+            <div className="space-y-8 sm:space-y-10">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {displayItems.map((item, idx) => {
             const status = String(item.status ?? "draft");
             const borderAccent =
@@ -358,8 +360,6 @@ export function CampaignsView({ initialItems = [] }: { initialItems?: CampaignRe
             </CardContent>
           </Card>
         </div>
-        </div>
-              </div>
             </div>
           </div>
         </div>
