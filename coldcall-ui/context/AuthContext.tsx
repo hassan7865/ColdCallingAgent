@@ -43,7 +43,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const isAuthPage = pathname === "/login" || pathname === "/register";
-    if (!isLoading && isError && !isAuthPage) {
+    const isPublicPage = pathname === "/terms" || pathname === "/privacy" || pathname === "/security";
+    if (!isLoading && isError && !isAuthPage && !isPublicPage) {
       router.replace("/login");
     }
   }, [isError, isLoading, pathname, router]);

@@ -215,13 +215,13 @@ export default function RegisterPage() {
           <div className="mx-auto flex max-w-[1100px] flex-col items-center justify-between gap-4 text-[10px] uppercase tracking-wider text-on-surface-variant/80 sm:flex-row">
             <span>© {new Date().getFullYear()} CallAgent</span>
             <div className="flex flex-wrap justify-center gap-x-5 gap-y-2">
-              <Link href="#" className="hover:text-on-surface-variant">
+              <Link href="/terms" className="hover:text-on-surface-variant">
                 Terms
               </Link>
-              <Link href="#" className="hover:text-on-surface-variant">
+              <Link href="/privacy" className="hover:text-on-surface-variant">
                 Privacy
               </Link>
-              <Link href="#" className="hover:text-on-surface-variant">
+              <Link href="/security" className="hover:text-on-surface-variant">
                 Security
               </Link>
             </div>
