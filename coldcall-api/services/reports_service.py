@@ -255,27 +255,3 @@ async def reports_insight(session: AsyncSession, user_id: UUID) -> dict[str, Any
     }
 
 
-async def reports_agent_performance(session: AsyncSession, user_id: UUID) -> dict[str, Any]:
-    start = datetime.now(UTC) - timedelta(days=30)
-    q_calls = select(func.count()).select_from(Call).where(Call.agent_user_id == user_id, Call.created_at >= start)
-    q_meetings = select(func.count()).select_from(Call).where(
-        Call.agent_user_id == user_id,
-        Call.created_at >= start,
-        Call.outcome == CallOutcome.meeting_booked,
-    )
-    calls = int((await session.execute(q_calls)).scalar_one() or 0)
-    meetings = int((await session.execute(q_meetings)).scalar_one() or 0)
-    return {
-        "agents": [
-            {
-                "user_id": str(user_id),
-                "calls_30d": calls,
-                "meetings_booked_30d": meetings,
-                "meeting_rate": round(100.0 * meetings / calls, 2) if calls else 0.0,
-            }
-        ]
-    }
-
-
-async def reports_campaign(session: AsyncSession, campaign_id: UUID) -> dict[str, Any]:
-    return {"campaign_id": str(campaign_id), "stats": {}}

@@ -35,7 +35,7 @@ export function ActiveCallPanel() {
           aria-label="Live call workspace"
         >
               <div className="space-y-6 p-1 sm:space-y-8 sm:p-2">
-      <Card className="relative grid w-full grid-cols-1 overflow-hidden rounded-xl border-0 bg-surface-container lg:grid-cols-12">
+      <div className="relative grid w-full grid-cols-1 gap-4 overflow-hidden rounded-xl border-0 bg-surface-container lg:grid-cols-12">
         <CardContent className="col-span-7 flex flex-col p-6 sm:p-8 lg:p-10">
           <div className="mb-7 flex justify-center">
             <div className="relative flex items-center justify-center">
@@ -133,7 +133,7 @@ export function ActiveCallPanel() {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </div>
 
       <Card className="relative w-full overflow-hidden rounded-2xl border-0 bg-surface-container-highest/75 py-6 shadow-xl backdrop-blur-xl sm:py-7">
         <Badge className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-md bg-primary-container px-2 py-0.5 text-[9px] font-bold uppercase tracking-widest text-on-primary-container sm:right-4 sm:top-4 sm:px-2.5 sm:py-1 sm:text-[10px]">

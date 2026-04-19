@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Sparkles, Users } from "lucide-react";
 import { ListLoading } from "@/components/features/shared/list-loading";
 import { useAuthContext } from "@/context/AuthContext";
@@ -45,12 +45,6 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
       if (found) return found;
     }
     return list[0];
-  }, [list, selectedId]);
-
-  useEffect(() => {
-    if (selectedId && !list.some((p) => p.id === selectedId) && list[0]?.id) {
-      setSelectedId(list[0].id);
-    }
   }, [list, selectedId]);
 
   const stats = useMemo(() => {
@@ -163,7 +157,7 @@ export function ProspectsTable({ initialItems = [] }: { initialItems?: ProspectR
                     type="button"
                     onClick={() => item.id && setSelectedId(item.id)}
                     className={cn(
-                      "group relative w-full cursor-pointer text-left transition-colors",
+                      "group relative w-full cursor-pointer text-left transition-colors focus-visible:ring-2 focus-visible:ring-primary/50",
                       active
                         ? "border-l-[3px] border-primary bg-surface-container-high/90"
                         : "border-l-[3px] border-transparent hover:bg-surface-container-high/50",

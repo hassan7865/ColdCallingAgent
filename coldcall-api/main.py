@@ -9,18 +9,10 @@ from core.logging import RequestIdLoggingMiddleware, configure_logging
 from core.responses import error_response
 from routers import (
     auth,
-    calls,
     campaigns,
-    crm,
-    emails,
-    followups,
     health,
-    linkedin,
-    meetings,
     prospects,
     reports,
-    scripts,
-    triggers,
 )
 
 settings = get_settings()
@@ -41,14 +33,6 @@ app.include_router(health.router)
 app.include_router(auth.router, prefix=settings.api_prefix)
 app.include_router(prospects.router, prefix=settings.api_prefix)
 app.include_router(campaigns.router, prefix=settings.api_prefix)
-app.include_router(calls.router, prefix=settings.api_prefix)
-app.include_router(scripts.router, prefix=settings.api_prefix)
-app.include_router(emails.router, prefix=settings.api_prefix)
-app.include_router(linkedin.router, prefix=settings.api_prefix)
-app.include_router(followups.router, prefix=settings.api_prefix)
-app.include_router(meetings.router, prefix=settings.api_prefix)
-app.include_router(triggers.router, prefix=settings.api_prefix)
-app.include_router(crm.router, prefix=settings.api_prefix)
 app.include_router(reports.router, prefix=settings.api_prefix)
 
 

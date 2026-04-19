@@ -11,12 +11,4 @@ const resourceFactory = (name: string) => ({
 
 export const prospectsKeys = resourceFactory("prospects");
 export const campaignsKeys = resourceFactory("campaigns");
-export const callsKeys = resourceFactory("calls");
-export const scriptsKeys = resourceFactory("scripts");
-export const emailsKeys = resourceFactory("emails");
-export const linkedinKeys = resourceFactory("linkedin");
-export const followupsKeys = resourceFactory("followups");
-export const meetingsKeys = resourceFactory("meetings");
-export const triggersKeys = resourceFactory("triggers");
-export const crmKeys = resourceFactory("crm");
 export const reportsKeys = resourceFactory("reports");

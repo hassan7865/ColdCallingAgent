@@ -54,16 +54,8 @@ export function CampaignsView({ initialItems = [] }: { initialItems?: CampaignRe
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
 
-  if (authLoading) {
-    return <ListLoading rows={6} />;
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
-
   const items = query.data?.data?.items ?? initialItems;
-  const displayItems = Array.isArray(items) ? items : [];
+  const displayItems = useMemo(() => (Array.isArray(items) ? items : []), [items]);
 
   const stats = useMemo(() => {
     const active = displayItems.filter((i) => i.status === "active").length;
@@ -71,6 +63,14 @@ export function CampaignsView({ initialItems = [] }: { initialItems?: CampaignRe
     const prospects = displayItems.reduce((s, i) => s + Number(i.total_prospects ?? 0), 0);
     return { active, paused, prospects };
   }, [displayItems]);
+
+  if (authLoading) {
+    return <ListLoading rows={6} />;
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const openCreate = () => {
     setFormMode("create");

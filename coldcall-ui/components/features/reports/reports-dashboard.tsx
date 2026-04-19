@@ -7,6 +7,13 @@ import { Calendar, CalendarDays, CalendarRange, Loader2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { getApiErrorMessage } from "@/lib/api-error";
 import api from "@/lib/api";
@@ -520,19 +527,19 @@ export function ReportsDashboard() {
                 </div>
                 <div className="overflow-x-auto rounded-xl border-0">
                   <table className="w-full min-w-[480px] text-left text-xs">
-                    <thead className="border-b-0 bg-surface-container-low/80 text-on-surface-variant">
-                      <tr>
-                        <th className="px-3 py-2 font-semibold">{range === "daily" ? "Date (UTC)" : "Period (UTC)"}</th>
-                        <th className="px-3 py-2 font-semibold">Calls</th>
-                        <th className="px-3 py-2 font-semibold">Connect rate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
+                    <TableHeader className="border-b-0 bg-surface-container-low/80 text-on-surface-variant">
+                      <TableRow className="border-b-0">
+                        <TableHead className="h-auto px-3 py-2 font-semibold">{range === "daily" ? "Date (UTC)" : "Period (UTC)"}</TableHead>
+                        <TableHead className="h-auto px-3 py-2 font-semibold">Calls</TableHead>
+                        <TableHead className="h-auto px-3 py-2 font-semibold">Connect rate</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
                       {chartRows.map((point) => {
                         const rowKey = point.isBucket ? `${point.date}_${point.endDate}` : point.date;
                         return (
-                          <tr key={rowKey} className="border-b border-outline-variant/10 last:border-0">
-                            <td className="px-3 py-2 text-on-surface">
+                          <TableRow key={rowKey} className="border-b border-outline-variant/10 last:border-0 hover:bg-transparent">
+                            <TableCell className="px-3 py-2 text-on-surface">
                               {point.isBucket ? (
                                 <span className="text-[11px] leading-snug">
                                   {point.date}
@@ -542,13 +549,13 @@ export function ReportsDashboard() {
                               ) : (
                                 point.date
                               )}
-                            </td>
-                            <td className="px-3 py-2 font-mono text-on-surface">{point.calls}</td>
-                            <td className="px-3 py-2 font-mono text-on-surface">{point.connect_rate}%</td>
-                          </tr>
+                            </TableCell>
+                            <TableCell className="px-3 py-2 font-mono text-on-surface">{point.calls}</TableCell>
+                            <TableCell className="px-3 py-2 font-mono text-on-surface">{point.connect_rate}%</TableCell>
+                          </TableRow>
                         );
                       })}
-                    </tbody>
+                    </TableBody>
                   </table>
                 </div>
               </div>
@@ -568,24 +575,24 @@ export function ReportsDashboard() {
             {segments.length ? (
               <div className="overflow-x-auto rounded-xl border-0">
                 <table className="w-full min-w-[520px] text-left text-sm">
-                  <thead className="border-b-0 bg-surface-container-low/80 text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
-                    <tr>
-                      <th className="px-3 py-2">Industry</th>
-                      <th className="px-3 py-2">Calls</th>
-                      <th className="px-3 py-2">Meetings</th>
-                      <th className="px-3 py-2">Meeting rate</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+                  <TableHeader className="border-b-0 bg-surface-container-low/80 text-xs font-semibold uppercase tracking-wider text-on-surface-variant">
+                    <TableRow className="border-b-0">
+                      <TableHead className="h-auto px-3 py-2">Industry</TableHead>
+                      <TableHead className="h-auto px-3 py-2">Calls</TableHead>
+                      <TableHead className="h-auto px-3 py-2">Meetings</TableHead>
+                      <TableHead className="h-auto px-3 py-2">Meeting rate</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
                     {segments.map((row) => (
-                      <tr key={row.label} className="border-b border-outline-variant/10 last:border-0">
-                        <td className="px-3 py-2.5 font-medium text-on-surface">{row.label}</td>
-                        <td className="px-3 py-2.5 font-mono text-on-surface">{row.calls}</td>
-                        <td className="px-3 py-2.5 font-mono text-on-surface">{row.meetings}</td>
-                        <td className="px-3 py-2.5 font-mono text-on-surface">{row.rate}%</td>
-                      </tr>
+                      <TableRow key={row.label} className="border-b border-outline-variant/10 last:border-0 hover:bg-transparent">
+                        <TableCell className="px-3 py-2.5 font-medium text-on-surface">{row.label}</TableCell>
+                        <TableCell className="px-3 py-2.5 font-mono text-on-surface">{row.calls}</TableCell>
+                        <TableCell className="px-3 py-2.5 font-mono text-on-surface">{row.meetings}</TableCell>
+                        <TableCell className="px-3 py-2.5 font-mono text-on-surface">{row.rate}%</TableCell>
+                      </TableRow>
                     ))}
-                  </tbody>
+                  </TableBody>
                 </table>
               </div>
             ) : (

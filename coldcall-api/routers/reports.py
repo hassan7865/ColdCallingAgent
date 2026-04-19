@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -60,20 +58,3 @@ async def insight(
     return success_response("Insight fetched", data)
 
 
-@router.get("/agent-performance", response_model=Envelope[dict], status_code=status.HTTP_200_OK)
-async def agent_performance(
-    session: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_user),
-):
-    data = await reports_service.reports_agent_performance(session, current_user.id)
-    return success_response("Agent performance report fetched", data)
-
-
-@router.get("/campaign/{campaign_id}", response_model=Envelope[dict], status_code=status.HTTP_200_OK)
-async def campaign(
-    campaign_id: UUID,
-    session: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_user),
-):
-    data = await reports_service.reports_campaign(session, campaign_id)
-    return success_response("Campaign report fetched", data)

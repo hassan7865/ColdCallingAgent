@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { useCreateCampaigns, useUpdateCampaigns } from "@/hooks/use-campaigns";
 import { toDatetimeLocal, toOptionalIso } from "@/lib/campaign-dates";
 import { campaignFormSchema, type CampaignFormValues } from "@/lib/validations/campaigns";
@@ -108,6 +108,16 @@ export function CampaignFormDialog({
     form.setValue("channels", next, { shouldDirty: true });
   };
 
+  const watchedChannels = useWatch({
+    control: form.control,
+    name: "channels",
+  }) ?? [];
+
+  const watchedStatus = useWatch({
+    control: form.control,
+    name: "status",
+  }) ?? "draft";
+
   const onSubmit = form.handleSubmit(async (values) => {
     const channels = values.channels?.length ? values.channels : undefined;
     const target_segment = values.target_segment?.trim() || undefined;
@@ -148,7 +158,7 @@ export function CampaignFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton
-        className="max-h-[min(90dvh,720px)] gap-0 overflow-y-auto border-outline-variant/20 bg-surface-container p-0 sm:max-w-lg"
+        className="max-h-[min(90dvh,720px)] flex flex-col gap-0 border-outline-variant/20 bg-surface-container p-0 sm:max-w-lg"
       >
         <DialogHeader className="border-b border-outline-variant/15 px-5 pb-4 pt-5 sm:px-6 sm:pt-6">
           <DialogTitle className="text-lg font-bold text-on-surface sm:text-xl">
@@ -161,106 +171,109 @@ export function CampaignFormDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <form onSubmit={onSubmit} className="flex flex-col">
-          <div className="space-y-5 px-5 py-5 sm:px-6">
-            <div className="space-y-2">
-              <Label htmlFor="campaign-name" className="text-on-surface">
-                Name <span className="text-primary">*</span>
-              </Label>
-              <Input
-                id="campaign-name"
-                placeholder="e.g. Q2 outbound — healthcare"
-                className="border-outline-variant/30 bg-surface-container-low"
-                {...form.register("name")}
-              />
-              {form.formState.errors.name ? (
-                <p className="text-xs text-destructive">{form.formState.errors.name.message}</p>
+        <form onSubmit={onSubmit} className="flex flex-col flex-1 min-h-0">
+          {/* Scrollable form body */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="space-y-5 px-5 py-5 sm:px-6">
+              <div className="space-y-2">
+                <Label htmlFor="campaign-name" className="text-on-surface">
+                  Name <span className="text-primary">*</span>
+                </Label>
+                <Input
+                  id="campaign-name"
+                  placeholder="e.g. Q2 outbound — healthcare"
+                  className="border-outline-variant/30 bg-surface-container-low"
+                  {...form.register("name")}
+                />
+                {form.formState.errors.name ? (
+                  <p className="text-xs text-destructive">{form.formState.errors.name.message}</p>
+                ) : null}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="campaign-segment" className="text-on-surface">
+                  Target segment
+                </Label>
+                <Textarea
+                  id="campaign-segment"
+                  placeholder="ICP, industry, company size, titles…"
+                  rows={3}
+                  className="border-outline-variant/30 bg-surface-container-low resize-y"
+                  {...form.register("target_segment")}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-on-surface">Channels</Label>
+                <div className="flex flex-wrap gap-4">
+                  {CHANNELS.map(({ id, label }) => (
+                    <label
+                      key={id}
+                      className={cn(
+                        "flex cursor-pointer items-center gap-2 rounded-lg border border-outline-variant/25 bg-surface-container-low px-3 py-2 text-sm text-on-surface transition-colors",
+                        "hover:border-primary/30 has-[:checked]:border-primary/40 has-[:checked]:bg-primary/5",
+                      )}
+                    >
+                      <Checkbox
+                        checked={watchedChannels.includes(id)}
+                        onCheckedChange={(v) => toggleChannel(id, v === true)}
+                      />
+                      {label}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="campaign-start" className="text-on-surface">
+                    Start (optional)
+                  </Label>
+                  <Input
+                    id="campaign-start"
+                    type="datetime-local"
+                    className="border-outline-variant/30 bg-surface-container-low"
+                    {...form.register("start_date")}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="campaign-end" className="text-on-surface">
+                    End (optional)
+                  </Label>
+                  <Input
+                    id="campaign-end"
+                    type="datetime-local"
+                    className="border-outline-variant/30 bg-surface-container-low"
+                    {...form.register("end_date")}
+                  />
+                </div>
+              </div>
+              {form.formState.errors.end_date ? (
+                <p className="text-xs text-destructive">{form.formState.errors.end_date.message}</p>
+              ) : null}
+
+              {mode === "edit" ? (
+                <div className="space-y-2">
+                  <Label className="text-on-surface">Status</Label>
+                  <Select
+                    value={watchedStatus}
+                    onValueChange={(v) =>
+                      form.setValue("status", v as CampaignFormValues["status"], { shouldDirty: true })
+                    }
+                  >
+                    <SelectTrigger className="border-outline-variant/30 bg-surface-container-low">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="paused">Paused</SelectItem>
+                      <SelectItem value="completed">Completed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               ) : null}
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="campaign-segment" className="text-on-surface">
-                Target segment
-              </Label>
-              <Textarea
-                id="campaign-segment"
-                placeholder="ICP, industry, company size, titles…"
-                rows={3}
-                className="border-outline-variant/30 bg-surface-container-low resize-y"
-                {...form.register("target_segment")}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-on-surface">Channels</Label>
-              <div className="flex flex-wrap gap-4">
-                {CHANNELS.map(({ id, label }) => (
-                  <label
-                    key={id}
-                    className={cn(
-                      "flex cursor-pointer items-center gap-2 rounded-lg border border-outline-variant/25 bg-surface-container-low px-3 py-2 text-sm text-on-surface transition-colors",
-                      "hover:border-primary/30 has-[:checked]:border-primary/40 has-[:checked]:bg-primary/5",
-                    )}
-                  >
-                    <Checkbox
-                      checked={(form.watch("channels") ?? []).includes(id)}
-                      onCheckedChange={(v) => toggleChannel(id, v === true)}
-                    />
-                    {label}
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="campaign-start" className="text-on-surface">
-                  Start (optional)
-                </Label>
-                <Input
-                  id="campaign-start"
-                  type="datetime-local"
-                  className="border-outline-variant/30 bg-surface-container-low"
-                  {...form.register("start_date")}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="campaign-end" className="text-on-surface">
-                  End (optional)
-                </Label>
-                <Input
-                  id="campaign-end"
-                  type="datetime-local"
-                  className="border-outline-variant/30 bg-surface-container-low"
-                  {...form.register("end_date")}
-                />
-              </div>
-            </div>
-            {form.formState.errors.end_date ? (
-              <p className="text-xs text-destructive">{form.formState.errors.end_date.message}</p>
-            ) : null}
-
-            {mode === "edit" ? (
-              <div className="space-y-2">
-                <Label className="text-on-surface">Status</Label>
-                <Select
-                  value={form.watch("status") ?? "draft"}
-                  onValueChange={(v) =>
-                    form.setValue("status", v as CampaignFormValues["status"], { shouldDirty: true })
-                  }
-                >
-                  <SelectTrigger className="border-outline-variant/30 bg-surface-container-low">
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Draft</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="paused">Paused</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            ) : null}
           </div>
 
           <DialogFooter className="gap-2 border-t border-outline-variant/15 bg-surface-container-low/80 px-5 py-4 sm:px-6">
