@@ -36,7 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       } catch {
         // no-op: logout endpoint can fail if session is already invalid
       }
-      router.replace("/login");
+      router.replace("/");
     });
     return unsubscribe;
   }, [router]);
@@ -44,8 +44,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const isAuthPage = pathname === "/login" || pathname === "/register";
     const isPublicPage = pathname === "/terms" || pathname === "/privacy" || pathname === "/security";
-    if (!isLoading && isError && !isAuthPage && !isPublicPage) {
-      router.replace("/login");
+    const isLandingPage = pathname === "/";
+    if (!isLoading && isError && !isAuthPage && !isPublicPage && !isLandingPage) {
+      router.replace("/");
     }
   }, [isError, isLoading, pathname, router]);
 
@@ -54,10 +55,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       user: data?.data ?? null,
       isLoading,
       isAuthenticated: !isLoading && data?.data != null,
-      logout: async () => {
-        await authApi.logout();
-        router.replace("/login");
-      },
+logout: async () => {
+          await authApi.logout();
+          router.replace("/");
+        },
     }),
     [data?.data, isLoading, router],
   );
